@@ -21,7 +21,8 @@ public class FornecedorController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Fornecedor> cadastrarFornecedor(@RequestBody Fornecedor fornecedor) {
-        return fornecedorService.save(fornecedor);
+        Fornecedor fornecedorSalvo = fornecedorService.save(fornecedor);
+        return ResponseEntity.ok(fornecedorService.save(fornecedorSalvo));
     }
 
     @GetMapping("/listar")
