@@ -22,7 +22,8 @@ public class CategoriaController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Categoria> cadastrarCategoria(@RequestBody Categoria categoria) {
-        return categoriaService.save(categoria);
+        Categoria categoriaSalva = categoriaService.save(categoria);
+        return ResponseEntity.ok(categoriaService.save(categoriaSalva));
     }
 
     @GetMapping("/listar")
