@@ -22,7 +22,8 @@ public class ProdutoController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Produto> salvar(@RequestBody Produto produto) {
-        return produtoService.save(produto);
+        Produto produtoSalvo = produtoService.save(produto);
+        return ResponseEntity.ok(produtoSalvo);
     }
 
     @GetMapping("/listar")
