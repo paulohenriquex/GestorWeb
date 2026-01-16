@@ -1,6 +1,7 @@
 package com.br.gestorweb.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,19 +15,19 @@ public class MarcaService {
     @Autowired
     private MarcaRepository marcaRepository;
 
-    public ResponseEntity<Marca> save(Marca marca) {
-        try {
-            return ResponseEntity.ok(marcaRepository.save(marca));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+    public Marca save(Marca marca) {
+        if (marca == null) {
+            throw new IllegalArgumentException("O produto não pode ser nulo");
         }
+        return Objects.requireNonNull(marcaRepository.save(marca));
     }
 
     public ResponseEntity<List<Marca>> findAll() {
-        try {
-            return ResponseEntity.ok(marcaRepository.findAll());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+        List<Marca> marcas = marcaRepository.findAll();
+
+        if (marcas.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok(marcas);
     }
 }
