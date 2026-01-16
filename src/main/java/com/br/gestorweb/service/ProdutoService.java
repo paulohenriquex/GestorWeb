@@ -1,6 +1,7 @@
 package com.br.gestorweb.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,21 +16,19 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    public ResponseEntity<Produto> save(Produto produto) {
-        try {
-            produtoRepository.save(produto);
-            return ResponseEntity.ok(produto);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+    public Produto save(Produto produto) {
+        if (produto == null) {
+            throw new IllegalArgumentException("O produto não pode ser nulo");
         }
+        return Objects.requireNonNull(produtoRepository.save(produto));
     }
 
     public ResponseEntity<List<Produto>> findAll() {
-        try {
-            return ResponseEntity.ok(produtoRepository.findAll());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+        List<Produto> produtos = produtoRepository.findAll();
+        if (produtos.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok(produtos);
     }
 
 }
