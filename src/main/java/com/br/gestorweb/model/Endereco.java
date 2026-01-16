@@ -21,6 +21,7 @@ public class Endereco {
     private String pais;
     private String estado;
     private String cidade;
+    private String bairro;
     private String cep;
     private String logradouro;
     private String numero;
