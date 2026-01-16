@@ -22,7 +22,8 @@ public class MarcaController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Marca> cadastrarMarca(@RequestBody Marca marca) {
-        return marcaService.save(marca);
+        Marca marcaSalva = marcaService.save(marca);
+        return ResponseEntity.ok(marcaService.save(marcaSalva));
     }
 
     @GetMapping("/listar")
