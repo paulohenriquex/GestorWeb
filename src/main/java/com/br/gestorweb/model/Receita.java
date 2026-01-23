@@ -3,8 +3,6 @@ package com.br.gestorweb.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +26,6 @@ public class Receita {
     @Column(columnDefinition = "TEXT")
     private String modoDePreparo;
 
-    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReceitaIngrediente> ingredientes = new ArrayList<>();
 }
