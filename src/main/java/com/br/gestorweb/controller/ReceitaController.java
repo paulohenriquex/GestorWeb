@@ -3,6 +3,7 @@ package com.br.gestorweb.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +16,9 @@ import com.br.gestorweb.service.ReceitaService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/receita")
+@RequestMapping("/receitas")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class ReceitaController {
 
     private final ReceitaService receitaService;
@@ -33,6 +35,10 @@ public class ReceitaController {
 
     @GetMapping("/listar")
     public ResponseEntity<List<Receita>> listarReceitas() {
-        return ResponseEntity.badRequest().build();
+        List<Receita> receitas = receitaService.findAll();
+        if (receitas == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(receitas);
     }
 }
