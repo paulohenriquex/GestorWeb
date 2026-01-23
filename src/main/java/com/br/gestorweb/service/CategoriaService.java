@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.br.gestorweb.model.Categoria;
@@ -22,11 +21,26 @@ public class CategoriaService {
         return Objects.requireNonNull(categoriaRepository.save(categoria));
     }
 
-    public ResponseEntity<List<Categoria>> findAll() {
+    public List<Categoria> findAll() {
         List<Categoria> categorias = categoriaRepository.findAll();
         if (categorias.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+            return null;
         }
-        return ResponseEntity.ok(categorias);
+        return categorias;
     }
+
+    public Categoria findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("O ID não pode ser nulo");
+        }
+        return categoriaRepository.findById(id).orElse(null);
+    }
+
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("O ID não pode ser nulo");
+        }
+        categoriaRepository.deleteById(id);
+    }
+
 }

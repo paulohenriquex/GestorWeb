@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.br.gestorweb.model.Marca;
@@ -22,12 +21,26 @@ public class MarcaService {
         return Objects.requireNonNull(marcaRepository.save(marca));
     }
 
-    public ResponseEntity<List<Marca>> findAll() {
+    public List<Marca> findAll() {
         List<Marca> marcas = marcaRepository.findAll();
 
         if (marcas.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return null;
         }
-        return ResponseEntity.ok(marcas);
+        return marcas;
+    }
+
+    public Marca findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("O ID não pode ser nulo");
+        }
+        return marcaRepository.findById(id).orElse(null);
+    }
+
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("O ID não pode ser nulo");
+        }
+        marcaRepository.deleteById(id);
     }
 }

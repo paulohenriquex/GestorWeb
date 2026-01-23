@@ -25,6 +25,18 @@ public class ReceitaService {
     }
 
     public List<Receita> findAll() {
-        return receitaRepository.findAll();
+        List<Receita> receitas = receitaRepository.findAll();
+        if (receitas.isEmpty()) {
+            return null;
+        }
+        return receitas;
     }
+
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("O ID não pode ser nulo");
+        }
+        receitaRepository.deleteById(id);
+    }
+
 }

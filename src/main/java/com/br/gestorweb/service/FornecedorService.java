@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.br.gestorweb.model.Fornecedor;
@@ -22,11 +21,25 @@ public class FornecedorService {
         return Objects.requireNonNull(fornecedorRepository.save(fornecedor));
     }
 
-    public ResponseEntity<List<Fornecedor>> findAll() {
+    public List<Fornecedor> findAll() {
         List<Fornecedor> fornecedores = fornecedorRepository.findAll();
         if (fornecedores.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return null;
         }
-        return ResponseEntity.ok(fornecedores);
+        return fornecedores;
+    }
+
+    public Fornecedor findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("O ID não pode ser nulo");
+        }
+        return fornecedorRepository.findById(id).orElse(null);
+    }
+
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("O ID não pode ser nulo");
+        }
+        fornecedorRepository.deleteById(id);
     }
 }
