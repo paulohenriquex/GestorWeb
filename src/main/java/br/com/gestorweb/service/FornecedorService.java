@@ -58,7 +58,7 @@ public class FornecedorService {
         if (fornecedor.getEndereco() != null) {
             enderecoDto = new EnderecoDTO(
                     fornecedor.getEndereco().getId(),
-                    fornecedor.getNome(),
+                    fornecedor.getEndereco().getPais(),
                     fornecedor.getEndereco().getEstado(),
                     fornecedor.getEndereco().getCidade(),
                     fornecedor.getEndereco().getBairro(),
