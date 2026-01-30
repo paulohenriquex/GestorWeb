@@ -1,5 +1,7 @@
 package br.com.gestorweb.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,5 +31,5 @@ public class IngredienteReceita {
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
-    private Double percapita;
+    private BigDecimal percapita;
 }
