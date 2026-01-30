@@ -1,18 +1,19 @@
 package br.com.gestorweb.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,4 +31,8 @@ public class Fornecedor {
     @OneToOne
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
+
+    @OneToMany(mappedBy = "fornecedor")
+    private List<Produto> produtos;
+
 }
