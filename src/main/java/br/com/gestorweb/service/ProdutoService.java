@@ -3,7 +3,6 @@ package br.com.gestorweb.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.gestorweb.dto.ProdutoDTO;
@@ -11,16 +10,22 @@ import br.com.gestorweb.model.Produto;
 import br.com.gestorweb.repository.CategoriaRepository;
 import br.com.gestorweb.repository.MarcaRepository;
 import br.com.gestorweb.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProdutoService {
-        @Autowired
         private MarcaRepository marcaRepository;
-        @Autowired
         private CategoriaRepository categoriaRepository;
-        @Autowired
         private ProdutoRepository produtoRepository;
 
+        public ProdutoService(MarcaRepository marcaRepository, CategoriaRepository categoriaRepository,
+                        ProdutoRepository produtoRepository) {
+                this.marcaRepository = marcaRepository;
+                this.categoriaRepository = categoriaRepository;
+                this.produtoRepository = produtoRepository;
+        }
+
+        @Transactional
         public ProdutoDTO save(ProdutoDTO dto) {
                 Produto produto = new Produto();
                 produto.setNome(dto.nome());
