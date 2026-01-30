@@ -1,5 +1,7 @@
 package br.com.gestorweb.dto;
 
-public record ReceitaDTO(Long id, String nome, String modoDePreparo) {
+import java.util.List;
+
+public record ReceitaDTO(Long id, String nome, String modoDePreparo, List<IngredienteReceitaDTO> ingredientes) {
 
 }
