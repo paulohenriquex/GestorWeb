@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import br.com.gestorweb.dto.ProdutoDTO;
 import br.com.gestorweb.model.Produto;
+import br.com.gestorweb.model.Usuario;
 import br.com.gestorweb.repository.CategoriaRepository;
 import br.com.gestorweb.repository.MarcaRepository;
 import br.com.gestorweb.repository.ProdutoRepository;
+import br.com.gestorweb.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -17,16 +19,22 @@ public class ProdutoService {
         private final MarcaRepository marcaRepository;
         private final CategoriaRepository categoriaRepository;
         private final ProdutoRepository produtoRepository;
+        private final UsuarioRepository usuarioRepository;
 
         public ProdutoService(MarcaRepository marcaRepository, CategoriaRepository categoriaRepository,
-                        ProdutoRepository produtoRepository) {
+                        ProdutoRepository produtoRepository, UsuarioRepository usuarioRepository) {
                 this.marcaRepository = marcaRepository;
                 this.categoriaRepository = categoriaRepository;
                 this.produtoRepository = produtoRepository;
+                this.usuarioRepository = usuarioRepository;
+
         }
 
         @Transactional
-        public ProdutoDTO save(ProdutoDTO dto) {
+        public ProdutoDTO save(ProdutoDTO dto, Long usuarioId) {
+
+                Usuario usuario = usuarioRepository.findById(usuarioId)
+                                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
                 Produto produto = new Produto();
                 produto.setNome(dto.nome());
                 produto.setPreco(dto.preco());
@@ -37,16 +45,17 @@ public class ProdutoService {
                 if (dto.categoriaId() != null) {
                         produto.setCategoria(categoriaRepository.getReferenceById(dto.categoriaId()));
                 }
+                produto.setUsuario(usuario);
                 produto = produtoRepository.save(produto);
                 return converterParaDTO(produto);
         }
 
-        public List<ProdutoDTO> findAll() {
-                List<Produto> produtosNoBanco = produtoRepository.findAll();
-                List<ProdutoDTO> listaDeDtos = new ArrayList<>();
-                for (Produto produto : produtosNoBanco) {
-                        ProdutoDTO dto = converterParaDTO(produto);
-                        listaDeDtos.add(dto);
+        public List<ProdutoDTO> findAll(Long usuarioId) {
+                List<Produto> produtosNoBanco = produtoRepository.finbByUsuarioId(usuarioId); // Mantém a correção do
+                                                                                              // typo
+                List<ProdutoDTO> listaDeDtos = new ArrayList<>(); // Reverte para o ArrayList tradicional
+                for (Produto produto : produtosNoBanco) { // Reverte para o loop for tradicional
+                        listaDeDtos.add(converterParaDTO(produto));
                 }
                 return listaDeDtos;
         }
