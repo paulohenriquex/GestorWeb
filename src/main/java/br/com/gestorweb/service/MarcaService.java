@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import br.com.gestorweb.dto.MarcaDTO;
 import br.com.gestorweb.model.Marca;
 import br.com.gestorweb.repository.MarcaRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class MarcaService {
@@ -18,6 +19,7 @@ public class MarcaService {
         this.marcaRepository = marcaRepository;
     }
 
+    @Transactional
     public MarcaDTO save(MarcaDTO dto) {
         Marca marca = new Marca();
         marca.setNome(dto.nome());
