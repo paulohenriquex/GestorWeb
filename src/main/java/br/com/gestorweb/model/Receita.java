@@ -2,6 +2,7 @@ package br.com.gestorweb.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class Receita {
     private String nome;
     private String modoDePreparo;
 
-    @OneToMany(mappedBy = "receita")
+    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IngredienteReceita> ingredientes;
 
 }
