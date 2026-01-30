@@ -43,7 +43,7 @@ public class EnderecoService {
         return listaDeDtos;
     }
 
-    public EnderecoDTO converterParaDTO(Endereco endereco) {
+    private EnderecoDTO converterParaDTO(Endereco endereco) {
         return new EnderecoDTO(endereco.getId(),
                 endereco.getLogradouro(),
                 endereco.getPais(),

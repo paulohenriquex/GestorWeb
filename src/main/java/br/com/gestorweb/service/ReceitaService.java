@@ -22,7 +22,7 @@ public class ReceitaService {
         return converterParaDTO(receita);
     }
 
-    public ReceitaDTO converterParaDTO(Receita receita) {
+    private ReceitaDTO converterParaDTO(Receita receita) {
         return new ReceitaDTO(receita.getId(), receita.getNome(), receita.getModoDePreparo());
     }
 

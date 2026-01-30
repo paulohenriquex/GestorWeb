@@ -35,7 +35,7 @@ public class CategoriaService {
         return listaDeDtos;
     }
 
-    public CategoriaDTO converterParaDTO(Categoria categoria) {
+    private CategoriaDTO converterParaDTO(Categoria categoria) {
         return new CategoriaDTO(categoria.getId(), categoria.getNome());
     }
 }

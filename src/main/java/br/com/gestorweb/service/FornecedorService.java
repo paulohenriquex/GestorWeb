@@ -52,7 +52,7 @@ public class FornecedorService {
         return listaDeDtos;
     }
 
-    public FornecedorDTO converterParaDTO(Fornecedor fornecedor) {
+    private FornecedorDTO converterParaDTO(Fornecedor fornecedor) {
         EnderecoDTO enderecoDto = null;
 
         if (fornecedor.getEndereco() != null) {

@@ -36,7 +36,7 @@ public class MarcaService {
         return listaDeDtos;
     }
 
-    public MarcaDTO converterParaDTO(Marca marca) {
+    private MarcaDTO converterParaDTO(Marca marca) {
         return new MarcaDTO(marca.getId(), marca.getNome());
     }
 }
