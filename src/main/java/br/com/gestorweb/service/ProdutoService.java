@@ -14,9 +14,9 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class ProdutoService {
-        private MarcaRepository marcaRepository;
-        private CategoriaRepository categoriaRepository;
-        private ProdutoRepository produtoRepository;
+        private final MarcaRepository marcaRepository;
+        private final CategoriaRepository categoriaRepository;
+        private final ProdutoRepository produtoRepository;
 
         public ProdutoService(MarcaRepository marcaRepository, CategoriaRepository categoriaRepository,
                         ProdutoRepository produtoRepository) {
