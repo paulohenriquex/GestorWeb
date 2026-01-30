@@ -32,4 +32,8 @@ public class IngredienteReceita {
     private Produto produto;
 
     private BigDecimal percapita;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 }

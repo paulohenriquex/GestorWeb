@@ -44,4 +44,8 @@ public class Produto {
     @OneToMany(mappedBy = "produto")
     private List<IngredienteReceita> ingredientes;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
 }
