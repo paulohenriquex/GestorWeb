@@ -11,6 +11,7 @@ import br.com.gestorweb.model.IngredienteReceita;
 import br.com.gestorweb.model.Receita;
 import br.com.gestorweb.repository.ProdutoRepository;
 import br.com.gestorweb.repository.ReceitaRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ReceitaService {
@@ -22,6 +23,7 @@ public class ReceitaService {
         this.produtoRepository = produtoRepository;
     }
 
+    @Transactional
     public ReceitaDTO save(ReceitaDTO dto) {
         Receita receita = new Receita();
         receita.setId(dto.id());
