@@ -1,5 +1,8 @@
 package br.com.gestorweb.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import br.com.gestorweb.dto.EnderecoDTO;
@@ -7,6 +10,7 @@ import br.com.gestorweb.dto.FornecedorDTO;
 import br.com.gestorweb.model.Endereco;
 import br.com.gestorweb.model.Fornecedor;
 import br.com.gestorweb.repository.FornecedorRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class FornecedorService {
@@ -16,6 +20,7 @@ public class FornecedorService {
         this.fornecedorRepository = fornecedorRepository;
     }
 
+    @Transactional
     public FornecedorDTO save(FornecedorDTO dto) {
         Fornecedor fornecedor = new Fornecedor();
         fornecedor.setNome(dto.nome());
@@ -36,6 +41,15 @@ public class FornecedorService {
         }
         fornecedor = fornecedorRepository.save(fornecedor);
         return converterParaDTO(fornecedor);
+    }
+
+    public List<FornecedorDTO> findAll() {
+        List<Fornecedor> fornecedoresNoBanco = fornecedorRepository.findAll();
+        List<FornecedorDTO> listaDeDtos = new ArrayList<>();
+        for (Fornecedor fornecedor : fornecedoresNoBanco) {
+            listaDeDtos.add(converterParaDTO(fornecedor));
+        }
+        return listaDeDtos;
     }
 
     public FornecedorDTO converterParaDTO(Fornecedor fornecedor) {

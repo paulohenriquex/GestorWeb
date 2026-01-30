@@ -1,5 +1,8 @@
 package br.com.gestorweb.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import br.com.gestorweb.dto.EnderecoDTO;
@@ -16,6 +19,7 @@ public class EnderecoService {
         this.enderecoRepository = enderecoRepository;
     }
 
+    @Transactional
     public EnderecoDTO save(EnderecoDTO dto) {
         Endereco endereco = new Endereco();
         endereco.setLogradouro(dto.logradouro());
@@ -30,7 +34,15 @@ public class EnderecoService {
         return converterParaDTO(endereco);
     }
 
-    @Transactional
+    public List<EnderecoDTO> findAll() {
+        List<Endereco> enderecosNoBanco = enderecoRepository.findAll();
+        List<EnderecoDTO> listaDeDtos = new ArrayList<>();
+        for (Endereco endereco : enderecosNoBanco) {
+            listaDeDtos.add(converterParaDTO(endereco));
+        }
+        return listaDeDtos;
+    }
+
     public EnderecoDTO converterParaDTO(Endereco endereco) {
         return new EnderecoDTO(endereco.getId(),
                 endereco.getLogradouro(),
