@@ -9,70 +9,65 @@ import br.com.gestorweb.dto.EnderecoDTO;
 import br.com.gestorweb.dto.FornecedorDTO;
 import br.com.gestorweb.model.Endereco;
 import br.com.gestorweb.model.Fornecedor;
+import br.com.gestorweb.model.Usuario;
 import br.com.gestorweb.repository.FornecedorRepository;
+import br.com.gestorweb.repository.EnderecoRepository;
+import br.com.gestorweb.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
 @Service
 public class FornecedorService {
     private final FornecedorRepository fornecedorRepository;
+    private final EnderecoRepository enderecoRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public FornecedorService(FornecedorRepository fornecedorRepository) {
+    public FornecedorService(FornecedorRepository fornecedorRepository, EnderecoRepository enderecoRepository,
+            UsuarioRepository usuarioRepository) {
         this.fornecedorRepository = fornecedorRepository;
+        this.enderecoRepository = enderecoRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Transactional
     public FornecedorDTO save(FornecedorDTO dto) {
-        Fornecedor fornecedor = new Fornecedor();
+        Fornecedor fornecedor = (dto.id() != null) ? fornecedorRepository.findById(dto.id())
+                .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado")) : new Fornecedor();
         fornecedor.setNome(dto.nome());
         fornecedor.setTelefone(dto.telefone());
         fornecedor.setEmail(dto.email());
+
+        Usuario usuario = usuarioRepository.findById(dto.usuarioId())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        fornecedor.setUsuario(usuario);
+
         if (dto.endereco() != null) {
-            Endereco endereco = new Endereco();
-            endereco.setId(dto.endereco().id());
-            endereco.setLogradouro(dto.endereco().logradouro());
-            endereco.setPais(dto.endereco().pais());
-            endereco.setEstado(dto.endereco().estado());
-            endereco.setCidade(dto.endereco().cidade());
-            endereco.setBairro(dto.endereco().bairro());
-            endereco.setCep(dto.endereco().cep());
-            endereco.setNumero(dto.endereco().numero());
-            endereco.setComplemento(dto.endereco().complemento());
-            fornecedor.setEndereco(endereco);
+            Endereco endereco = (dto.endereco().id() != null) ? enderecoRepository.findById(dto.endereco().id())
+                    .orElseThrow(() -> new RuntimeException("Endereço não encontrado")) : new Endereco();
+            atualizarDadosEndereco(endereco, dto.endereco(), usuario);
+            fornecedor.setEndereco(enderecoRepository.save(endereco));
         }
-        fornecedor = fornecedorRepository.save(fornecedor);
-        return converterParaDTO(fornecedor);
+        return FornecedorDTO.fromEntity(fornecedorRepository.save(fornecedor));
     }
 
     public List<FornecedorDTO> findAll() {
-        List<Fornecedor> fornecedoresNoBanco = fornecedorRepository.findAll();
-        List<FornecedorDTO> listaDeDtos = new ArrayList<>();
-        for (Fornecedor fornecedor : fornecedoresNoBanco) {
-            listaDeDtos.add(converterParaDTO(fornecedor));
+        List<Fornecedor> fornecedores = fornecedorRepository.findAll();
+        List<FornecedorDTO> dtos = new ArrayList<>();
+        for (Fornecedor f : fornecedores) {
+            dtos.add(FornecedorDTO.fromEntity(f));
         }
-        return listaDeDtos;
+        return dtos;
     }
 
-    private FornecedorDTO converterParaDTO(Fornecedor fornecedor) {
-        EnderecoDTO enderecoDto = null;
-
-        if (fornecedor.getEndereco() != null) {
-            enderecoDto = new EnderecoDTO(
-                    fornecedor.getEndereco().getId(),
-                    fornecedor.getEndereco().getPais(),
-                    fornecedor.getEndereco().getEstado(),
-                    fornecedor.getEndereco().getCidade(),
-                    fornecedor.getEndereco().getBairro(),
-                    fornecedor.getEndereco().getLogradouro(),
-                    fornecedor.getEndereco().getCep(),
-                    fornecedor.getEndereco().getNumero(),
-                    fornecedor.getEndereco().getComplemento());
-        }
-
-        return new FornecedorDTO(
-                fornecedor.getId(),
-                fornecedor.getNome(),
-                fornecedor.getTelefone(),
-                fornecedor.getEmail(),
-                enderecoDto);
+    // Método auxiliar para não poluir o save
+    private void atualizarDadosEndereco(Endereco e, EnderecoDTO d, Usuario u) {
+        e.setLogradouro(d.logradouro());
+        e.setPais(d.pais());
+        e.setEstado(d.estado());
+        e.setCidade(d.cidade());
+        e.setBairro(d.bairro());
+        e.setCep(d.cep());
+        e.setNumero(d.numero());
+        e.setComplemento(d.complemento());
+        e.setUsuario(u);
     }
 }
