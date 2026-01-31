@@ -32,11 +32,11 @@ public class Receita {
     private List<IngredienteReceita> ingredientes;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
-
-    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "planejamento_id")
     private Planejamento planejamento;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
 }
