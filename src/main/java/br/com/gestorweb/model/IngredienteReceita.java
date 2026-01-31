@@ -23,6 +23,8 @@ public class IngredienteReceita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private BigDecimal percapita;
+
     @ManyToOne
     @JoinColumn(name = "receita_id")
     private Receita receita;
@@ -30,8 +32,6 @@ public class IngredienteReceita {
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
-
-    private BigDecimal percapita;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
