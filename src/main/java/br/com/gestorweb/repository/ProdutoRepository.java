@@ -8,6 +8,6 @@ import br.com.gestorweb.model.Produto;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-    List<Produto> finbByUsuarioId(Long usuarioId);
+    List<Produto> findByUsuarioId(Long usuarioId);
 
 }
