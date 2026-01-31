@@ -24,10 +24,6 @@ public class Servico {
     private String nome;
 
     @ManyToOne
-    @JoinColumn(name = "planejamento_id")
-    private Planejamento planejamento;
-
-    @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 }
