@@ -27,13 +27,10 @@ public class Planejamento {
 
     private LocalDate data;
 
-    @OneToMany(mappedBy = "planejamento")
-    private List<Receita> receitas;
+    @OneToMany(mappedBy = "planejamento", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    private List<ServicoPlanejamento> servicosPlanejamento;
 
-    @OneToMany(mappedBy = "planejamento")
-    private List<Servico> servicos;
-
-    private Integer quantitativo;
+    // private Integer quantitativo; // Moved to ServicoPlanejamento
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
